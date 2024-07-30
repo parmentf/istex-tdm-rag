@@ -23,7 +23,7 @@ main », je vais tenter l'utilisation d'un *framework* fait pour ça:
 
 À l'occasion de ce POC, j'utilise [bun](https://bun.sh/) au lieu de
 [NodeJs](https://nodejs.org/). Il se peut que certaines fonctionnalités soient
-manquanttes.
+manquantes.
 
 Pour installer les paquets:
 

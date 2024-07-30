@@ -6,6 +6,7 @@ import {
 } from '@llm-tools/embedjs';
 import { LanceDb } from '@llm-tools/embedjs/vectorDb/lance';
 import path from 'path';
+import msee from 'msee';
 
 const ragApplication = await new RAGApplicationBuilder()
     .setModel(
@@ -16,11 +17,10 @@ const ragApplication = await new RAGApplicationBuilder()
     )
     .setVectorDb(new LanceDb({ path: path.resolve('db') }))
     .setQueryTemplate(
-        "Utilise tout le contexte fourni pour répondre à la question à la fin du paragrahe. Réponds à toute la question. Si tu ne connais pas la réponse, dis simplement que tu ne sais pas, n'essaye pas de créer une réponse qui pourrait être considérée comme fausse ou inexacte. Question: {0}",
+        "Utilise tout le contexte fourni pour répondre à la question à la fin du paragraphe. Réponds à toute la question. Si tu ne connais pas la réponse, dis simplement que tu ne sais pas, n'essaye pas de créer une réponse qui pourrait être considérée comme fausse ou inexacte. Question: {0}",
     )
     .setEmbeddingModel(
         new OllamaEmbeddings({
-            // model: 'llama3.1:latest',
             model: 'nomic-embed-text:latest',
             baseUrl: 'http://localhost:11434',
         }),
@@ -149,19 +149,7 @@ const ragApplication = await new RAGApplicationBuilder()
         }),
     )
     .addLoader(
-        new WebLoader({
-            urlOrContent:
-                'https://services.istex.fr/identification-des-laboratoires-in2p3/',
-        }),
-    )
-    .addLoader(
-        new WebLoader({
-            urlOrContent:
-                'https://services.istex.fr/regroupement-des-categories-inspire-en-meta-categorie-in2p3/',
-        }),
-    )
-    .addLoader(
-        new WebLoader({
+         new WebLoader({
             urlOrContent: 'https://services.istex.fr/detection-dunites-cnrs/',
         }),
     )
@@ -254,9 +242,15 @@ const ragApplication = await new RAGApplicationBuilder()
     )
     .build();
 
-console.log('POC RAG ISTEX TDM');
+console.log(msee.parse('# POC RAG ISTEX TDM'));
 
 const answer = await ragApplication.query(
-    'Quels sont différents types de services web disponbiles?',
+    'Quels sont les différents types de services web disponibles?',
 );
-console.log(answer);
+// console.log(answer);
+console.log(msee.parse(answer.content));
+
+console.log(msee.parse("## Sources"))
+for(let s of answer.sources) {
+    console.log(` - ${s.source}`);
+}
