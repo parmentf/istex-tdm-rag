@@ -81,6 +81,13 @@ faire explicitement:
 ollama serve
 ```
 
+Ensuite, il faut télécharger les modèles utilisés:
+
+```bash
+ollama pull nomic-embed-text
+ollama pull llama3.1
+```
+
 ### Base vectorielle
 
 Toujours dans l'idée de ne pas dépendre de services externes, la
