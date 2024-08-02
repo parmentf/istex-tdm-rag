@@ -35,7 +35,8 @@ console.log(msee.parse('# POC RAG ISTEX TDM'));
 
 console.log(msee.parse(`## Question\n*${query}*`));
 
-if (true) {
+const GENERATE_ANSWER = true;
+if (GENERATE_ANSWER) {
     const answer = await ragApplication.query(query);
     // console.log(answer);
     console.log(msee.parse(answer.content));
@@ -45,7 +46,7 @@ if (true) {
         console.log(` - ${s.source}`);
     }
 } else {
-    const answer = await ragApplication.getContext(query);
+    const context = await ragApplication.getContext(query);
 
-    console.log(answer);
+    console.log(context);
 }
