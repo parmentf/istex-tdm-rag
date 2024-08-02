@@ -38,6 +38,34 @@ Pour installer les paquets:
 bun install
 ```
 
+### VSCode
+
+Pour éviter les désagréables soulignements rouges qui indiquent que TypeScript
+n'a pas de déclaration pour `promise-ratelimit` et pour `msee`, voilà les
+fichiers:
+
+- node_modules/msee/lib/msee.d.ts:
+
+    ```typescript
+    export function parse(text: any, options?: any): string;
+    export function parseFile(file: any, options?: any): string;
+    ```
+- node_modules/promise-ratelimit/index.d.ts:
+
+    ```typescript
+    export = ratelimit;
+    declare function ratelimit(rateInMs: any): {
+        (): any;
+        currentlyActiveCheck: any;
+        lastExecutionTime: number;
+        queue: any[];
+        resolveUniform(fnName: any, v: any): void;
+        resolveAll(v: any): void;
+        rejectAll(v: any): void;
+        check(): any;
+    };
+    ```
+
 ### LLM
 
 Je veux utiliser un LLM local, j'ai donc opté pour [ollama](https://ollama.com/).
