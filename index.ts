@@ -3,7 +3,6 @@
 import {
     RAGApplicationBuilder,
     Ollama,
-    WebLoader,
     OllamaEmbeddings,
 } from '@llm-tools/embedjs';
 import { LanceDb } from '@llm-tools/embedjs/vectorDb/lance';
