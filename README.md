@@ -25,6 +25,13 @@ main », je vais tenter l'utilisation d'un *framework* fait pour ça:
 [NodeJs](https://nodejs.org/). Il se peut que certaines fonctionnalités soient
 manquantes.
 
+Pour installer `bun`:
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+source ~/.bashrc
+```
+
 Pour installer les paquets:
 
 ```bash
@@ -34,6 +41,17 @@ bun install
 ### LLM
 
 Je veux utiliser un LLM local, j'ai donc opté pour [ollama](https://ollama.com/).
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+Dans certains environnements, le serveur ollama n'est pas lancé, il faut le
+faire explicitement:
+
+```bash
+ollama serve
+```
 
 ### Base vectorielle
 
