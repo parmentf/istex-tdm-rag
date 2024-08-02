@@ -18,6 +18,8 @@ const allPostIds = allPosts
     .slice(0)
     .map((p) => p.id);
 
+console.log(`Nombre de fiches à traiter: ${allPostIds.length}`);
+
 const ragApplication = await new RAGApplicationBuilder()
     .setModel(
         new Ollama({
@@ -36,6 +38,10 @@ const ragApplication = await new RAGApplicationBuilder()
     ;
 
 await ragApplication.deleteAllEmbeddings(true);
+console.log(
+    "Nombre d'embeddings restant après reset:",
+    await ragApplication.getEmbeddingsCount()
+);
 
 await Promise.all(allPostIds.map(async (id) => {
     const url = `https://services.istex.fr/?p=${id}`;
