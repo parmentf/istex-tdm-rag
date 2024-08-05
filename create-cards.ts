@@ -4,11 +4,13 @@ import * as cheerio from 'cheerio';
 
 const getTextPart = (html: string, section: string) => {
     const $ = cheerio.load(html);
-    const partElements = $(`div.wsHeader.flexrow div.wsContentFull div:contains("${section}")`)
-        .siblings() ?? [];
+    const partElements =
+        $(`div.wsHeader.flexrow div.wsContentFull div:contains("${section}")`).siblings().length
+            ? $(`div.wsHeader.flexrow div.wsContentFull div:contains("${section}")`).siblings() ?? []
+            : $(`div.wsContentFullSmall div:contains("${section}")`).siblings() ?? [];
     let partText = '';
     for (let i = 0; i < partElements.length; i++) {
-        partText += (partElements.eq(i).text().trim() ?? '') +'\n';
+        partText += (partElements.eq(i).text().trim() ?? '') + '\n';
     }
     return partText.trim();
 }
@@ -24,8 +26,8 @@ export const html2card = (html: string) => {
     const method = getTextPart(html, 'Méthode');
     const metrics = getTextPart(html, 'Métriques');
     const variants = getTextPart(html, 'Variantes');
-    const others = getTextPart(html, 'Ces web services qui peuvent vous intéresser');
     const references = getTextPart(html, 'Références');
+    const others = getTextPart(html, 'Ces web services qui peuvent vous intéresser');
 
     const url = $('#textToCopy-2').text().trim() ?? $('#textToCopy-3').text().trim();
 
@@ -46,8 +48,8 @@ export const html2card = (html: string) => {
         method,
         metrics,
         variants,
-        others,
         references,
+        others,
         url,
         // input,
         // output,
