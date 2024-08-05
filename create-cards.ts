@@ -31,11 +31,21 @@ export const html2card = (html: string) => {
 
     const url = $('#textToCopy-2').text().trim() ?? $('#textToCopy-3').text().trim();
 
-    // console.assert(!title.startsWith("none"), $('.wsEntry pre').eq(0).text().trim() ?? '{}');
-    // const input = JSON.parse($('.wsEntry pre').eq(0).text().trim().replace(/\n/g, ' ') ?? '{}');
-
-    // console.assert(!title.startsWith("none"), $('.wsResult pre').eq(0).text().trim() ?? '{}');
-    // const output = JSON.parse($('.wsResult pre').eq(0).text().replaceAll('\u{200b}', '').trim() ?? '{}');
+    const treatmentsTable =
+        $(`div.wsHeader.flexrow div.wsContentFull div:contains("Traitement")`).siblings();
+    const examplesTr = treatmentsTable?.find("tr");
+    // console.log(examplesTr.length)
+    const examples = Array(examplesTr.length);
+    for (let i = 0; i < examplesTr.length; i++) {
+        const exampleTds = examplesTr.eq(i).find("td");
+        const input = exampleTds.eq(0).text();
+        const evidence = exampleTds.eq(1).text();
+        const output = exampleTds.eq(2).text();
+        if (evidence.startsWith("==")) {
+            examples[i] = { input, output };
+        }
+    }
+    // console.log(examples);
 
     const openApi = $('.wsLinks div.wsTitleW:contains("Démonstration")').parent().parent().attr('href');
     const source = $('.wsLinks div.wsTitleW:contains("source")').parent().parent().attr('href');
@@ -51,8 +61,7 @@ export const html2card = (html: string) => {
         references,
         others,
         url,
-        // input,
-        // output,
+        examples,
         openApi,
         source,
     }
