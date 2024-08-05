@@ -35,6 +35,7 @@ describe("create-cards", () => {
         expect(card.examples[0].output).toStartWith("doi:10.3406/");
         expect(card.openApi).toStartWith("https:\/\/openapi.services.istex.fr");
         expect(card.source).toBe("https://github.com/Inist-CNRS/web-services/tree/main/services/biblio-ref");
+        expect(card.useCase).toStartWith("Vous souhaitez contrôler la validité");
     });
 
     test("Teeft", async () => {
@@ -45,6 +46,7 @@ describe("create-cards", () => {
         expect(card).toContainKeys([
             "title", "name", "userLevel", "validationLevel", "aim", "method", "metrics",
             "variants", "references", "others", "url", "examples", "openApi", "source",
+            "further", "useCase"
         ]);
         expect(card.title).toBe("Teeft - Extraction de termes d’un texte via Teeft");
         expect(card.name).toBe("Teeft");
@@ -60,5 +62,34 @@ describe("create-cards", () => {
         expect(card.examples[0].output).toStartWith("mars exploration rover mer,");
         expect(card.openApi).toStartWith("https://openapi.services.istex.fr");
         expect(card.source).toBe("https://github.com/Inist-CNRS/web-services/tree/main/services/terms-extraction/v1/teeft");
+        expect(card.further).toStartWith("Dans LODEX, les enrichissements");
+        expect(card.useCase).toStartWith("Vous avez un corpus");
+    });
+
+    test("idRorDetect", async () => {
+        const url = "https://services.istex.fr/associer-un-identifiant-ror-a-une-adresse-daffiliation/";
+        const html = await (await fetch(url)).text();
+        const card = html2card(html);
+
+        expect(card).toContainKeys([
+            "title", "name", "userLevel", "validationLevel", "aim", "method", "metrics",
+            "variants", "references", "others", "url", "examples", "openApi", "source",
+            "further", "useCase"
+        ]);
+        expect(card.title).toBe("IdRorDetect - Associer un identifiant ROR à une adresse d’affiliation");
+        expect(card.name).toBe("IdRorDetect");
+        expect(card.userLevel).toBe("Débutant");
+        expect(card.validationLevel).toBe("Expérimental");
+        expect(card.aim).toStartWith("Web service qui prend en entrée une affiliation");
+        expect(card.method).toStartWith("Le web service prend en entrée");
+        expect(card.metrics).toStartWith("Ce web service");
+        expect(card.variants).toBe("");
+        expect(card.references).toBe("");
+        expect(card.url).toBe("https://affiliations-tools.services.istex.fr/v1/ror/get-id");
+        expect(card.examples).toHaveLength(0);
+        expect(card.openApi).toStartWith("https://openapi.services.istex.fr");
+        expect(card.source).toBe("https://github.com/Inist-CNRS/web-services/tree/main/services/affiliations-tools/v1/ror");
+        expect(card.further).toBe("");
+        expect(card.useCase).toBe("");
     });
 });
