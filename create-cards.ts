@@ -29,7 +29,11 @@ export const html2card = (html: string) => {
     const references = getTextPart(html, 'Références');
     const others = getTextPart(html, 'Ces web services qui peuvent vous intéresser');
 
-    const url = $('#textToCopy-2').text().trim() ?? $('#textToCopy-3').text().trim();
+    const url = 
+        $('#textToCopy-2').text().trim() 
+        || $('#textToCopy-3').text().trim()
+        || $('#textToCopy-1').text().trim()
+        || "";
 
     const treatmentsTable =
         $(`div.wsHeader.flexrow div.wsContentFull div:contains("Traitement")`).siblings();
@@ -47,8 +51,11 @@ export const html2card = (html: string) => {
     }
     // console.log(examples);
 
+    
     const openApi = $('.wsLinks div.wsTitleW:contains("Démonstration")').parent().parent().attr('href');
     const source = $('.wsLinks div.wsTitleW:contains("source")').parent().parent().attr('href');
+    const further = getTextPart(html, 'Pour aller plus loin');
+    const useCase = $("div#displayContent-3").text().trim();
     return {
         title,
         name,
@@ -64,5 +71,7 @@ export const html2card = (html: string) => {
         examples,
         openApi,
         source,
+        further,
+        useCase,
     }
 }
