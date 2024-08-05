@@ -20,17 +20,20 @@ describe("create-cards", () => {
 
         expect(card).toContainKeys([
             "title", "name", "userLevel", "validationLevel", "aim", "method", "metrics",
-            "others", "url", "openApi", "source",
+            "others", "url", "examples", "openApi", "source",
         ]);
         expect(card.title).toBe("bibCheck - Contrôle de référence bibliographique");
         expect(card.name).toBe("bibCheck");
         expect(card.userLevel).toBe("Débutant");
         expect(card.validationLevel).toBe("Expérimental");
-        expect(card.aim).toMatch(/^Ce web service/);
-        expect(card.method).toMatch(/^L’entrée est une/);
+        expect(card.aim).toStartWith("Ce web service");
+        expect(card.method).toStartWith("L’entrée est une");
         expect(card.others).toBe("Enrichissement par DOI\nVerbalisation des préfixes de DOI");
         expect(card.url).toBe("https://biblio-ref.services.istex.fr/v1/validate");
-        expect(card.openApi).toMatch(/^https:\/\/openapi.services.istex.fr/)
+        expect(card.examples).toHaveLength(4);
+        expect(card.examples[0].input).toStartWith("2. Y. B. LINHART");
+        expect(card.examples[0].output).toStartWith("doi:10.3406/");
+        expect(card.openApi).toStartWith("https:\/\/openapi.services.istex.fr");
         expect(card.source).toBe("https://github.com/Inist-CNRS/web-services/tree/main/services/biblio-ref");
     });
 
@@ -41,16 +44,21 @@ describe("create-cards", () => {
 
         expect(card).toContainKeys([
             "title", "name", "userLevel", "validationLevel", "aim", "method", "metrics",
-            "variants", "references", "others", "url", "openApi", "source",
+            "variants", "references", "others", "url", "examples", "openApi", "source",
         ]);
         expect(card.title).toBe("Teeft - Extraction de termes d’un texte via Teeft");
         expect(card.name).toBe("Teeft");
         expect(card.userLevel).toBe("Débutant");
         expect(card.validationLevel).toBe("Validé");
-        expect(card.aim).toMatch(/^Le service web Teeft extrait/);
-        expect(card.metrics).toMatch(/^Le service Teeft originel/);
-        expect(card.variants).toMatch(/^Langues/);
-        expect(card.references).toMatch(/^Cuxac P/);
+        expect(card.aim).toStartWith("Le service web Teeft extrait");
+        expect(card.metrics).toStartWith("Le service Teeft originel");
+        expect(card.variants).toStartWith("Langues");
+        expect(card.references).toStartWith("Cuxac P");
         expect(card.url).toBe("https://terms-extraction.services.istex.fr/v1/teeft/en");
-    })
+        expect(card.examples).toHaveLength(1);
+        expect(card.examples[0].input).toStartWith("Mars Exploration Rover (MER)");
+        expect(card.examples[0].output).toStartWith("mars exploration rover mer,");
+        expect(card.openApi).toStartWith("https://openapi.services.istex.fr");
+        expect(card.source).toBe("https://github.com/Inist-CNRS/web-services/tree/main/services/terms-extraction/v1/teeft");
+    });
 });
