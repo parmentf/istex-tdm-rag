@@ -42,9 +42,9 @@ export const html2card = (html: string) => {
     const examples = Array(examplesTr.length);
     for (let i = 0; i < examplesTr.length; i++) {
         const exampleTds = examplesTr.eq(i).find("td");
-        const input = exampleTds.eq(0).text();
-        const evidence = exampleTds.eq(1).text();
-        const output = exampleTds.eq(2).text();
+        const input = exampleTds.eq(0).text().trim();
+        const evidence = exampleTds.eq(1).text().trim();
+        const output = exampleTds.eq(2).text().trim();
         if (evidence.startsWith("==")) {
             examples[i] = { input, output };
         }
