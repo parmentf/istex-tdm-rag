@@ -1,9 +1,10 @@
 #!/usr/bin/env bun
 
-import { Ollama, OllamaEmbeddings, RAGApplicationBuilder, WebLoader } from '@llm-tools/embedjs';
+import { JsonLoader, Ollama, OllamaEmbeddings, RAGApplicationBuilder } from '@llm-tools/embedjs';
 import { LanceDb } from '@llm-tools/embedjs/vectorDb/lance';
 import path from 'path';
 import ratelimit from 'promise-ratelimit';
+import { html2card } from './create-cards';
 
 const throttleOneSecond = ratelimit(1000);
 
@@ -47,9 +48,15 @@ await Promise.all(allPostIds.map(async (id) => {
     const url = `https://services.istex.fr/?p=${id}`;
     await throttleOneSecond();
 
-    await ragApplication.addLoader(new WebLoader({
-        urlOrContent:
-            url,
+    const html = await (await fetch(url)).text();
+    const card = html2card(html);
+
+    await ragApplication.addLoader(new JsonLoader({
+        object: { ...card, url },
+        pickKeysForEmbedding: [
+            'url', 'name', 'title', 'userLevel', 'validationLevel', 'aim', 'metrics',
+            'variants'
+        ],
     }));
 }));
 
