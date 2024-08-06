@@ -92,4 +92,58 @@ describe("create-cards", () => {
         expect(card.further).toBe("");
         expect(card.useCase).toBe("");
     });
+
+    test("textClustering", async () => {
+        const url = "https://services.istex.fr/extraction-de-cluster-dun-corpus/";
+        const html = await (await fetch(url)).text();
+        const card = html2card(html);
+
+        expect(card).toContainKeys([
+            "title", "name", "userLevel", "validationLevel", "aim", "method", "metrics",
+            "variants", "references", "others", "url", "examples", "openApi", "source",
+            "further", "useCase"
+        ]);
+        expect(card.title).toBe("textClustering - Extraction de cluster d’un corpus");
+        expect(card.name).toBe("textClustering");
+        expect(card.userLevel).toBe("Avancé");
+        expect(card.validationLevel).toBe("Expérimental");
+        expect(card.aim).toStartWith("Ce web service traite non plus du texte");
+        expect(card.method).toStartWith("Dans un premier temps, un embedding est utilisé");
+        expect(card.metrics).toStartWith("Un modèle est créé à chaque utilisation");
+        expect(card.variants).toBe("");
+        expect(card.references).toStartWith("UMAP (Uniform Manifold");
+        expect(card.others).toStartWith("Extraction de thématiques d’un corpus");
+        expect(card.url).toBe("https://text-clustering.services.istex.fr/v1/clustering");
+        expect(card.examples).toHaveLength(0);
+        expect(card.openApi).toStartWith("https://openapi.services.istex.fr");
+        expect(card.source).toBe("https://github.com/Inist-CNRS/web-services/tree/main/services/text-clustering");
+        expect(card.further).toBe("");
+        expect(card.useCase).toBe("");
+    })
+
+    test("quantityExtract", async () => {
+        const url = 'https://services.istex.fr/extraction-de-quantites/';
+        const html = await (await fetch(url)).text();
+        const card = html2card(html);
+
+        expect(card).toContainKeys([
+            "title", "name", "userLevel", "validationLevel", "aim", "method", "metrics",
+            "others", "url", "examples", "openApi", "source",
+        ]);
+        expect(card.title).toBe("quantityExtract - Extraction de quantités");
+        expect(card.name).toBe("quantityExtract");
+        expect(card.userLevel).toBe("Débutant");
+        expect(card.validationLevel).toBe("Expérimental");
+        expect(card.aim).toStartWith("Ce web service extrait");
+        expect(card.method).toStartWith("Ce web service utilise la");
+        expect(card.references).toStartWith("Bibliothèque python CQE");
+        expect(card.others).toStartWith("Extraction d’entités nommées de maladies");
+        expect(card.url).toBe("https://terms-extraction.services.istex.fr/v1/quantity/extract");
+        expect(card.examples).toHaveLength(2);
+        expect(card.examples[0].input).toStartWith("The experimental vaccine showed");
+        expect(card.examples[0].output).toStartWith("[\n");
+        expect(card.openApi).toStartWith("https:\/\/openapi.services.istex.fr");
+        expect(card.source).toBe("https://github.com/Inist-CNRS/web-services/tree/main/services/terms-extraction/v1/quantity");
+        expect(card.useCase).toBe("");
+    });
 });
