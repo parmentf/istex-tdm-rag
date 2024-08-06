@@ -26,6 +26,7 @@ const ragApplication = await new RAGApplicationBuilder()
             baseUrl: 'http://localhost:11434',
         }),
     )
+    .setSearchResultCount(3)
     .build();
 
 /////////////////////////////////////////////////
