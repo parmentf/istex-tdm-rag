@@ -29,7 +29,7 @@ export const html2card = (html: string) => {
     const references = getTextPart(html, 'Références');
     const others = getTextPart(html, 'Ces web services qui peuvent vous intéresser');
 
-    const url = 
+    const serviceUrl = 
         $('#textToCopy-2').text().trim() 
         || $('#textToCopy-3').text().trim()
         || $('#textToCopy-1').text().trim()
@@ -67,7 +67,7 @@ export const html2card = (html: string) => {
         variants,
         references,
         others,
-        url,
+        serviceUrl,
         examples,
         openApi,
         source,
