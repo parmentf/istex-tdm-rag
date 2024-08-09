@@ -16,6 +16,7 @@ const allPostIds = allPosts
     .filter(p => p.author !== 27) //Lucile
     .filter(p => p.author !== 29) // Segia
     .filter(p => p.id !== 1658) // NLP_tools
+    .filter(p => p.id !== 1509) // ARK tools
     .slice(0)
     .map((p) => p.id);
 
