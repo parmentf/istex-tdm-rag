@@ -468,3 +468,152 @@ Supprimer ark des fiches.
 |  textNormalize  |  1789 | 0,528 |     ✅      |
 |     geoTag      |  1891 | 0,529 |     ✅      |
 |   corpoDetect   |  2629 | 0,456 |     ❌      |
+
+## bge-m3, fiches JSON, 7 sources
+
+En utilisant le modèle `bge-m3` pour les *embeddings*, on espère améliorer la «
+compréhension » des questions et des fiches (modèle annoncé comme multilingue et
+plus récent que `nomic-embed-text`).
+
+On relance les mêmes questions, pour pouvoir comparer (ark a été supprimé des fiches).
+
+Malheureusement, si `refresh-services.ts` a fonctionné, `index.ts` plante (c'est
+peut-être dû à bun, mais j'en doute, puisqu'il fonctionnait sur un autre
+modèle).
+
+## sentence-camembert-large, fiches JSON, 7 sources
+
+En utilisant le modèle `sentence-camembert-large` pour les *embeddings*,
+`ollama` plante:
+
+```log
+116 |                 keep_alive: keepAlive,
+117 |                 options: requestOptions,
+118 |             }),
+119 |         });
+120 |         if (!response.ok) {
+121 |             throw new Error(`Request to Ollama server failed: ${response.status} ${response.statusText}`);
+                        ^
+error: Request to Ollama server failed: 500 Internal Server Error
+      at /home/onyxia/work/istex-tdm-rag/node_modules/@langchain/community/dist/embeddings/ollama.js:121:19
+```
+
+## all-minilm, fiches JSON, 7 sources
+
+En essayant le modèle `all-minilm`, c'est `vectordb` qui se plaint:
+
+```log
+227 |         }
+228 |         else {
+229 |             tbl = (0, arrow_1.makeArrowTable)(data, { schema, embeddings: this._embeddings });
+230 |         }
+231 |         return tableAdd
+232 |             .call(this._tbl, await (0, arrow_1.fromTableToBuffer)(tbl, this._embeddings, schema), WriteMode.Append.toString(), ...getAwsArgs(this._options()))
+                   ^
+error: Invalid argument error: Values length 384 is less than the length (768) multiplied by the value size (768) for FixedSizeList(Field { name: "item", data_type: Float32, nullable: true, dict_id: 0, dict_is_ordered: false, metadata: {} }, 768)
+      at /home/onyxia/work/istex-tdm-rag/node_modules/vectordb/dist/index.js:232:14
+```
+
+Ce qui signifie que `vectordb` fonctionne par défaut avec des vecteurs de taille 768 (au minimum).
+
+## paraphrase-multilingual, fiches JSON, 7 sources
+
+### Comment trouver des entités nommées dans un texte ?
+
+|      source      | fiche | score | correcte ? |
+| :--------------: | ----: | ----: | :--------: |
+| doiPublisherName |  1572 | 0,420 |     ❌      |
+|     bibCheck     |  2941 | 0,389 |     ❌      |
+|    cnrsDetect    |  2256 | 0,378 |     ❌      |
+|     engLemma     |  2416 | 0,362 |     ❌      |
+|   genderDetect   |  2413 | 0,356 |     ❌      |
+|   corpoDetect    |  2629 | 0,571 |     ❌      |
+|  textNormalize   |   178 | 0,350 |     ❌      |
+
+### Comment extraire les termes représentatifs d'un texte ?
+
+|      source      | fiche | score | correcte ? |
+| :--------------: | ----: | ----: | :--------: |
+|     engLemma     |  2416 | 0,554 |     ❌      |
+|    langDetect    |  1519 | 0,429 |     ❌      |
+|  textClustering  |  3680 | 0,407 |     ❌      |
+| loterre-communes |  1801 | 0,405 |     ❌      |
+|  textNormalize   |  1789 | 0,386 |     ❌      |
+| doiPublisherName |  1572 | 0,384 |     ❌      |
+|   genderDetect   |  2413 | 0,382 |     ❌      |
+
+### Comment trouver des noms de personnes dans un texte ?
+
+|      source      | fiche | score | correcte ? |
+| :--------------: | ----: | ----: | :--------: |
+|     bibCheck     |  2941 | 0,236 |     ❌      |
+| doiPublisherName |  1572 | 0,232 |     ❌      |
+|   genderDetect   |  2413 | 0,217 |     ❌      |
+| rnsrLearnDetect  |  2399 | 0,195 |     ❌      |
+|   corpoDetect    |  2629 | 0,189 |     ❌      |
+|     engLemma     |  2416 | 0,187 |     ❌      |
+|    cnrsDetect    |  2256 | 0,183 |     ❌      |
+
+### noms de personnes
+
+|      source      | fiche | score | correcte ? |
+| :--------------: | ----: | ----: | :--------: |
+| rnsrLearnDetect  |  2399 | 0,329 |     ❌      |
+| doiPublisherName |  1572 | 0,312 |     ❌      |
+|   genderDetect   |  2413 | 0,291 |     ❌      |
+|  authorDistinct  |  2455 | 0,271 |     ❌      |
+| loterre-communes |  1801 | 0,261 |     ❌      |
+|      Teeft       |  1561 | 0,259 |     ❌      |
+|     persTag      |  4159 | 0,258 |     ✅      |
+
+### termes représentatifs
+
+|      source      | fiche | score | correcte ? |
+| :--------------: | ----: | ----: | :--------: |
+| loterreCommunes  |  1801 | 0,514 |     ❌      |
+|   genderDetect   |  2413 | 0,500 |     ❌      |
+|     engLemma     |  2416 | 0,495 |     ❌      |
+|   loterrePays    |  1584 | 0,485 |     ❌      |
+|  authorDistinct  |  2455 | 0,470 |     ❌      |
+|   corpoDetect    |  2629 | 0,467 |     ❌      |
+| doiPublisherName |  1572 | 0,442 |     ❌      |
+
+
+### entités nommées
+
+|      source      | fiche | score | correcte ? |
+| :--------------: | ----: | ----: | :--------: |
+| doiPublisherName |  1572 | 0,484 |     ❌      |
+| rnsrLearnDetect  |  2399 | 0,475 |     ❌      |
+|  authorDistinct  | 22455 | 0,467 |     ❌      |
+|   corpoDetect    |  2629 | 0,438 |     ❌      |
+| loterreCommunes  |  1801 | 0,425 |     ❌      |
+|     affHosp      |  2385 | 0,419 |     ❌      |
+|      Teeft       |  1561 | 0,414 |     ❌      |
+
+### Comment trouver des entités nommées ?
+
+|      source      | fiche | score | correcte ? |
+| :--------------: | ----: | ----: | :--------: |
+| doiPublisherName |  1572 | 0,422 |     ❌      |
+|    cnrsDetect    |  2256 | 0,399 |     ❌      |
+| rnsrLearnDetect  |  2399 | 0,389 |     ❌      |
+|   IdRorDetect    |  4142 | 0,366 |     ❌      |
+| loterreCommunes  |  1801 | 0,352 |     ❌      |
+|   corpoDetect    |  2629 | 0,351 |     ❌      |
+|    speciesTag    |  2376 | 0,346 |     ✅      |
+
+
+
+## Conclusion
+
+À moins que ce soit paramétrable, il faut un modèle de plongement produisant des
+vecteurs de taille 768.  
+Les deux fois où une bonne correspondance est trouvée, c'est avec le 7e score.  
+La plupart des scores sont inférieurs à 0,5, alors que ceux de nomic tournent
+autour de 0,6.  
+Ça laisse penser que le plongement du français est plus mauvais avec
+`paraphrase-multilingual` qu'avec `nomic-embed-text`.  
+
+Peut-être qu'avec plus de texte (par exemple le champ `method` en plus), le
+modèle de nomic serait plus performant?
