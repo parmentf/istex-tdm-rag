@@ -18,7 +18,8 @@ const ragApplication = await new RAGApplicationBuilder()
     )
     .setVectorDb(new LanceDb({ path: path.resolve('db') }))
     .setQueryTemplate(
-        "Utilise tout le contexte fourni pour répondre à la question à la fin du paragraphe. Réponds à toute la question. Si tu ne connais pas la réponse, dis simplement que tu ne sais pas, n'essaye pas de créer une réponse qui pourrait être considérée comme fausse ou inexacte. Question: {0}",
+        // "Utilise tout le contexte fourni pour répondre à la question à la fin du paragraphe. Réponds à toute la question. Si tu ne connais pas la réponse, dis simplement que tu ne sais pas, n'essaye pas de créer une réponse qui pourrait être considérée comme fausse ou inexacte. Question: {0}",
+        "Tu es un expert du service TDM d'ISTEX. Utilise toutes les fiches de services web pertinentes fournies pour répondre à la question à la fin du paragraphe (en général pour sélectionner un service web adapté à l'opération en question). Réponds à toute la question. Si tu ne connais pas la réponse, dis simplement que tu ne sais pas, n'essaye pas de créer une réponse qui pourrait être considérée comme fausse ou inexacte. Question: {0}",
     )
     .setEmbeddingModel(
         new OllamaEmbeddings({
@@ -26,7 +27,7 @@ const ragApplication = await new RAGApplicationBuilder()
             baseUrl: 'http://localhost:11434',
         }),
     )
-    .setSearchResultCount(3)
+    .setSearchResultCount(7)
     .build();
 
 /////////////////////////////////////////////////
@@ -36,10 +37,9 @@ console.log(msee.parse('# POC RAG ISTEX TDM'));
 
 console.log(msee.parse(`## Question\n*${query}*`));
 
-const GENERATE_ANSWER = true;
+const GENERATE_ANSWER = false;
 if (GENERATE_ANSWER) {
     const answer = await ragApplication.query(query);
-    // console.log(answer);
     console.log(msee.parse(answer.content));
 
     console.log(msee.parse("## Sources"))

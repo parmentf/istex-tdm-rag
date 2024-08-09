@@ -116,7 +116,7 @@ Le service web `teeft`, voire `termsuite`, n'est pas présent dans les sources
 retrouvées.  
 Impossible d'avoir une réponse correcte.  
 
-### terms-extraction/tools, nlp-tools2, loterre-resolvers
+### textNormalize, nlp-tools2, loterre-resolvers
 
 1. Réponse fausse: ce n'est pas `textNormalize` qu'il faut utiliser.  
    Par de `langDetect` (rien à voir).  
@@ -376,3 +376,95 @@ En effet, c'est parfois la formulation des fiches qui ne permet pas de retrouver
 Exemple: à la question « Comment trouver des noms de personnes dans un texte ?
 », on n'associe pas facilement la formulation « Extraction d’entités nommées
 (Personnes, ...) ».
+
+## nomic-embed-text, fiches JSON, 7 sources
+
+Voyons si en ajoutant des sources, on trouve de meilleures correspondances avec
+la question.  
+Si ce n'est pas le cas, il faudra essayer avec d'autres modèles d'embedding.  
+
+### Comment trouver des entités nommées dans un texte ?
+
+|    source     | fiche | score | correcte ? |
+| :-----------: | ----: | ----: | :--------: |
+|    chemTag    |  2819 | 0,596 |     ✅      |
+| textNormalize |  1789 | 0,594 |     ❌      |
+|  langDetect   |  1519 | 0,593 |     ❌      |
+|  diseaseTag   |  2828 | 0,579 |     ✅      |
+|    persTag    |  4159 | 0,572 |     ✅      |
+|    geoTag     |  1891 | 0,571 |     ✅      |
+|  textExtract  |  3662 | 0,569 |     ❌      |
+
+### Comment extraire les termes représentatifs d'un texte ?
+
+|      source      | fiche | score | correcte ? |
+| :--------------: | ----: | ----: | :--------: |
+|  textNormalize   |  1789 | 0,677 |     ❌      |
+|    langDetect    |  1519 | 0,654 |     ❌      |
+| loterre-communes |  1801 | 0,648 |     ❌      |
+|     engLemma     |  2416 | 0,646 |     ❌      |
+|   loterre-pays   |  1584 | 0,638 |     ❌      |
+|   textExtract    |  3662 | 0,638 |     ❌      |
+|    termSuite     |  3226 | 0,633 |     ✅      |
+
+### Comment trouver des noms de personnes dans un texte ?
+
+|    source     | fiche | score | correcte ? |
+| :-----------: | ----: | ----: | :--------: |
+| textNormalize |  1789 | 0,621 |     ❌      |
+|  langDetect   |  1519 | 0,616 |     ❌      |
+|    chemTag    |  2819 | 0,600 |     ❌      |
+|   engLemma    |  2416 | 0,594 |     ❌      |
+| countryDetect |  2911 | 0,593 |     ❌      |
+|    persTag    |  4159 | 0,592 |     ✅      |
+|  diseaseTag   |  2828 | 0,587 |     ❌      |
+
+### noms de personnes
+
+|    source     | fiche | score | correcte ? |
+| :-----------: | ----: | ----: | :--------: |
+|    persTag    |  4159 | 0,560 |     ✅      |
+|  corpoDetect  |  2629 | 0,554 |     ❌      |
+| countryDetect |  2911 | 0,550 |     ❌      |
+|  diseaseTag   |  2828 | 0,534 |     ❌      |
+|    chemTag    |  2819 | 0,534 |     ❌      |
+|  cnrsDetect   |  2256 | 0,533 |     ❌      |
+| addressSplit  |  1555 | 0,528 |     ❌      |
+
+### termes représentatifs
+
+|      source      | fiche | score | correcte ? |
+| :--------------: | ----: | ----: | :--------: |
+|   loterrePays    |  1584 | 0,656 |     ❌      |
+| loterreCommunes  |  1801 | 0,643 |     ❌      |
+|  textNormalize   |  1789 | 0,625 |     ❌      |
+|  countryDetect   |  2911 | 0,604 |     ❌      |
+|     engLemma     |  2416 | 0,598 |     ❌      |
+|       ark        |  1509 | 0,595 |     ❌      |
+| doiPublisherName |  1572 | 0,595 |     ❌      |
+
+Supprimer ark des fiches.
+
+### entités nommées
+
+|     source      | fiche | score | correcte ? |
+| :-------------: | ----: | ----: | :--------: |
+|     chemTag     |  2819 | 0,485 |     ✅      |
+|   diseaseTag    |  2828 | 0,476 |     ✅      |
+|     persTag     |  4159 | 0,476 |     ✅      |
+|     baipTag     |  1931 | 0,460 |     ✅      |
+|     geoTag      |  1891 | 0,458 |     ✅      |
+|   speciesTag    |  2376 | 0,456 |     ✅      |
+| quantityExtract |  3328 | 0,456 |     ?      |
+
+### Comment trouver des entités nommées ?
+
+|     source      | fiche | score | correcte ? |
+| :-------------: | ----: | ----: | :--------: |
+|     chemTag     |  2819 | 0,563 |     ✅      |
+|     persTag     |  4159 | 0,551 |     ✅      |
+|   diseaseTag    |  2828 | 0,538 |     ✅      |
+| quantityExtract |  3328 | 0,530 |     ?      |
+|  textNormalize  |  1789 | 0,528 |     ✅      |
+|     geoTag      |  1891 | 0,529 |     ✅      |
+|   corpoDetect   |  2629 | 0,456 |     ❌      |
