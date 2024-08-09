@@ -395,6 +395,8 @@ Si ce n'est pas le cas, il faudra essayer avec d'autres modèles d'embedding.
 |    geoTag     |  1891 | 0,571 |     ✅      |
 |  textExtract  |  3662 | 0,569 |     ❌      |
 
+4/7, 1er (0,579)
+
 ### Comment extraire les termes représentatifs d'un texte ?
 
 |      source      | fiche | score | correcte ? |
@@ -406,6 +408,8 @@ Si ce n'est pas le cas, il faudra essayer avec d'autres modèles d'embedding.
 |   loterre-pays   |  1584 | 0,638 |     ❌      |
 |   textExtract    |  3662 | 0,638 |     ❌      |
 |    termSuite     |  3226 | 0,633 |     ✅      |
+
+1/7, 7e (0,633)
 
 ### Comment trouver des noms de personnes dans un texte ?
 
@@ -419,6 +423,8 @@ Si ce n'est pas le cas, il faudra essayer avec d'autres modèles d'embedding.
 |    persTag    |  4159 | 0,592 |     ✅      |
 |  diseaseTag   |  2828 | 0,587 |     ❌      |
 
+1/7, 6e (0,592)
+
 ### noms de personnes
 
 |    source     | fiche | score | correcte ? |
@@ -431,6 +437,8 @@ Si ce n'est pas le cas, il faudra essayer avec d'autres modèles d'embedding.
 |  cnrsDetect   |  2256 | 0,533 |     ❌      |
 | addressSplit  |  1555 | 0,528 |     ❌      |
 
+1/7, 1er (0,560)
+
 ### termes représentatifs
 
 |      source      | fiche | score | correcte ? |
@@ -442,6 +450,8 @@ Si ce n'est pas le cas, il faudra essayer avec d'autres modèles d'embedding.
 |     engLemma     |  2416 | 0,598 |     ❌      |
 |       ark        |  1509 | 0,595 |     ❌      |
 | doiPublisherName |  1572 | 0,595 |     ❌      |
+
+0/7
 
 Supprimer ark des fiches.
 
@@ -457,6 +467,8 @@ Supprimer ark des fiches.
 |   speciesTag    |  2376 | 0,456 |     ✅      |
 | quantityExtract |  3328 | 0,456 |     ?      |
 
+6/7, 1er (0.468 en moyenne pour les bons résultats)
+
 ### Comment trouver des entités nommées ?
 
 |     source      | fiche | score | correcte ? |
@@ -468,6 +480,12 @@ Supprimer ark des fiches.
 |  textNormalize  |  1789 | 0,528 |     ✅      |
 |     geoTag      |  1891 | 0,529 |     ✅      |
 |   corpoDetect   |  2629 | 0,456 |     ❌      |
+
+5/7, 1er (0,541)
+
+### Total
+
+18/49 (0,562 de moyenne)
 
 ## bge-m3, fiches JSON, 7 sources
 
@@ -604,6 +622,9 @@ Ce qui signifie que `vectordb` fonctionne par défaut avec des vecteurs de taill
 |    speciesTag    |  2376 | 0,346 |     ✅      |
 
 
+### total
+
+2/49 (0,302 de moyenne pour les résultats trouvés)
 
 ## Conclusion
 
@@ -617,3 +638,110 @@ autour de 0,6.
 
 Peut-être qu'avec plus de texte (par exemple le champ `method` en plus), le
 modèle de nomic serait plus performant?
+
+## nomic-embed-text, fiches JSON (+method), 7 sources
+
+Voyons si en ajoutant le champ `method`, on trouve de meilleures correspondances
+avec la question.  
+
+### Comment trouver des entités nommées dans un texte ?
+
+|     source     | fiche | score | correcte ? |
+| :------------: | ----: | ----: | :--------: |
+|  noiseDetect   |  4030 | 0,610 |     ❌      |
+|    chemTag     |  2819 | 0,608 |     ✅      |
+|   diseaseTag   |  2828 | 0,601 |     ✅      |
+| textClustering |  3680 | 0,597 |     ❌      |
+|    astroTag    |  2741 | 0,583 |     ✅      |
+|   doiEnrich    |  1837 | 0,583 |     ❌      |
+| textNormalize  |  1789 | 0,576 |     ❌      |
+
+3/7, 2e (0.597)
+
+### Comment extraire les termes représentatifs d'un texte ?
+
+|     source      | fiche | score | correcte ? |
+| :-------------: | ----: | ----: | :--------: |
+|   noiseDetect   |  4030 | 0,670 |     ❌      |
+|    TermSuite    |  3226 | 0,669 |     ✅      |
+|      Teeft      |  1561 | 0,665 |     ✅      |
+|  textNormalize  |  1789 | 0,660 |     ❌      |
+| loterreCommunes |  1801 | 0,644 |     ❌      |
+|   textExtract   |  3662 | 0,633 |     ❌      |
+|   loterrePays   |  1584 | 0,633 |     ❌      |
+
+2/7, 2e (0.667)
+
+### Comment trouver des noms de personnes dans un texte ?
+
+|     source     | fiche | score | correcte ? |
+| :------------: | ----: | ----: | :--------: |
+| authorDistinct |  2455 | 0,619 |     ❌      |
+|   TermSuite    |  3226 | 0,610 |     ❌      |
+|     Teeft      |  1561 | 0,600 |     ❌      |
+| textNormalize  |  1789 | 0,599 |     ❌      |
+|   langDetect   |  1519 | 0,590 |     ❌      |
+|    chemTag     |  2819 | 0,584 |     ❌      |
+|    persTag     |  4159 | 0,580 |     ✅      |
+
+1/7, 7e (0,580)
+
+### noms de personnes
+
+|     source     | fiche | score | correcte ? |
+| :------------: | ----: | ----: | :--------: |
+| authorDistinct |  2455 | 0,605 |     ❌      |
+|    persTag     |  4159 | 0,557 |     ✅      |
+|   TermSuite    |  3226 | 0,549 |     ❌      |
+|  corpoDetect   |  2629 | 0,545 |     ❌      |
+|   diseaseTag   |  2828 | 0,531 |     ❌      |
+| countryDetect  |  2911 | 0,528 |     ❌      |
+|    chemTag     |  2819 | 0,584 |     ❌      |
+
+1/7, 2e (0,557)
+
+### termes représentatifs
+
+|     source      | fiche | score | correcte ? |
+| :-------------: | ----: | ----: | :--------: |
+|   loterrePays   |  1584 | 0,652 |     ❌      |
+| loterreCommunes |  1801 | 0,640 |     ❌      |
+|    TermSuite    |  3226 | 0,621 |     ✅      |
+|  textNormalize  |  1789 | 0,594 |     ❌      |
+|      Teeft      |  1561 | 0,586 |     ✅      |
+|     persTag     |  4159 | 0,581 |     ❌      |
+|   noiseDetect   |  4030 | 0,580 |     ❌      |
+
+2/7, 2e (0,603)
+
+### entités nommées
+
+|     source      | fiche | score | correcte ? |
+| :-------------: | ----: | ----: | :--------: |
+|     chemTag     |  2819 | 0,504 |     ✅      |
+|   diseaseTag    |  2828 | 0,502 |     ✅      |
+|     persTag     |  4159 | 0,499 |     ✅      |
+|    doiEnrich    |  1837 | 0,485 |     ❌      |
+|    astroTag     |  2741 | 0,464 |     ✅      |
+| quantityExtract |  3328 | 0,462 |     ?      |
+|    ldaClass     |  2712 | 0,458 |     ?      |
+
+4/7, 1er (0.492)
+
+### Comment trouver des entités nommées ?
+
+|     source      | fiche | score | correcte ? |
+| :-------------: | ----: | ----: | :--------: |
+|     chemTag     |  2819 | 0,590 |     ✅      |
+|   diseaseTag    |  2828 | 0,572 |     ✅      |
+| authorDistinct  |  2455 | 0,565 |     ❌      |
+|    ldaClass     |  2712 | 0,565 |     ❌      |
+|     persTag     |  4159 | 0,558 |     ✅      |
+| quantityExtract |  3328 | 0,547 |     ?      |
+|    doiEnrich    |  1837 | 0,538 |     ❌      |
+
+3/7, 1er (0,573)
+
+### Total
+
+17/49 (0,581 en moyenne pour les bons résultats)

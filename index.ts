@@ -23,8 +23,7 @@ const ragApplication = await new RAGApplicationBuilder()
     )
     .setEmbeddingModel(
         new OllamaEmbeddings({
-            // model: 'nomic-embed-text:latest',
-            model: 'paraphrase-multilingual',
+            model: 'nomic-embed-text:latest',
             baseUrl: 'http://localhost:11434',
         }),
     )

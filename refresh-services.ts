@@ -32,8 +32,7 @@ const ragApplication = await new RAGApplicationBuilder()
     .setVectorDb(new LanceDb({ path: path.resolve('db') }))
     .setEmbeddingModel(
         new OllamaEmbeddings({
-            // model: 'nomic-embed-text:latest',
-            model: 'paraphrase-multilingual',
+            model: 'nomic-embed-text:latest',
             baseUrl: 'http://localhost:11434',
         }),
     )
@@ -57,7 +56,7 @@ await Promise.all(allPostIds.map(async (id) => {
         object: { ...card, url },
         pickKeysForEmbedding: [
             'url', 'name', 'title', 'userLevel', 'validationLevel', 'aim', 'metrics',
-            'variants'
+            'variants', 'method'
         ],
     }));
 }));
